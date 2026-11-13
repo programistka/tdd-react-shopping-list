@@ -1,7 +1,13 @@
 import { useState, type FormEvent } from 'react'
 
+type Item = {
+  id: string
+  name: string
+  bought: boolean
+}
+
 export const ShoppingList = () => {
-  const [items, setItems] = useState<string[]>([])
+  const [items, setItems] = useState<Item[]>([])
   const [name, setName] = useState('')
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -9,9 +15,22 @@ export const ShoppingList = () => {
     const trimmedName = name.trim()
     if (trimmedName === '') return
 
-    setItems([...items, trimmedName])
+    setItems([
+      ...items,
+      { id: crypto.randomUUID(), name: trimmedName, bought: false },
+    ])
     setName('')
   }
+
+  const toggleItem = (id: string) => {
+    setItems(
+      items.map((item) =>
+        item.id === id ? { ...item, bought: !item.bought } : item,
+      ),
+    )
+  }
+
+  const remainingCount = items.filter((item) => !item.bought).length
 
   return (
     <>
@@ -28,16 +47,23 @@ export const ShoppingList = () => {
       {items.length === 0 ? (
         <p>The list is empty</p>
       ) : (
-        <ul>
-          {items.map((item) => (
-            <li key={item}>
-              <label>
-                <input type="checkbox" />
-                {item}
-              </label>
-            </li>
-          ))}
-        </ul>
+        <>
+          <p>To buy: {remainingCount}</p>
+          <ul>
+            {items.map((item) => (
+              <li key={item.id}>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={item.bought}
+                    onChange={() => toggleItem(item.id)}
+                  />
+                  {item.name}
+                </label>
+              </li>
+            ))}
+          </ul>
+        </>
       )}
     </>
   )
