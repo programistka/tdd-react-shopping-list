@@ -1,0 +1,55 @@
+import { describe, expect, it } from 'vitest'
+import {
+  countRemaining,
+  shoppingListReducer,
+  type Item,
+} from './shoppingListReducer'
+
+const milk: Item = { id: '1', name: 'Milk', bought: false }
+const bread: Item = { id: '2', name: 'Bread', bought: true }
+
+describe('shoppingListReducer', () => {
+  it('adds a product with a trimmed name', () => {
+    const items = shoppingListReducer([], {
+      type: 'added',
+      id: '1',
+      name: '  Milk ',
+    })
+
+    expect(items).toEqual([milk])
+  })
+
+  it('ignores a product with an empty name', () => {
+    const items = shoppingListReducer([milk], {
+      type: 'added',
+      id: '2',
+      name: '   ',
+    })
+
+    expect(items).toEqual([milk])
+  })
+
+  it('toggles the bought state of the given product only', () => {
+    const items = shoppingListReducer([milk, bread], {
+      type: 'toggled',
+      id: '1',
+    })
+
+    expect(items).toEqual([{ ...milk, bought: true }, bread])
+  })
+
+  it('removes the given product', () => {
+    const items = shoppingListReducer([milk, bread], {
+      type: 'removed',
+      id: '1',
+    })
+
+    expect(items).toEqual([bread])
+  })
+})
+
+describe('countRemaining', () => {
+  it('counts only products that are not bought', () => {
+    expect(countRemaining([milk, bread])).toBe(1)
+  })
+})
