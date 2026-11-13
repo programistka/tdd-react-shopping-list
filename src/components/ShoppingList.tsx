@@ -6,7 +6,10 @@ export const ShoppingList = () => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    setItems([...items, name])
+    const trimmedName = name.trim()
+    if (trimmedName === '') return
+
+    setItems([...items, trimmedName])
     setName('')
   }
 
