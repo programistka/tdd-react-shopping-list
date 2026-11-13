@@ -1,40 +1,17 @@
-import { useState, type FormEvent } from 'react'
-
-type Item = {
-  id: string
-  name: string
-  bought: boolean
-}
+import { useReducer, useState, type FormEvent } from 'react'
+import { countRemaining, shoppingListReducer } from './shoppingListReducer'
 
 export const ShoppingList = () => {
-  const [items, setItems] = useState<Item[]>([])
+  const [items, dispatch] = useReducer(shoppingListReducer, [])
   const [name, setName] = useState('')
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const trimmedName = name.trim()
-    if (trimmedName === '') return
+    if (name.trim() === '') return
 
-    setItems([
-      ...items,
-      { id: crypto.randomUUID(), name: trimmedName, bought: false },
-    ])
+    dispatch({ type: 'added', id: crypto.randomUUID(), name })
     setName('')
   }
-
-  const toggleItem = (id: string) => {
-    setItems(
-      items.map((item) =>
-        item.id === id ? { ...item, bought: !item.bought } : item,
-      ),
-    )
-  }
-
-  const removeItem = (id: string) => {
-    setItems(items.filter((item) => item.id !== id))
-  }
-
-  const remainingCount = items.filter((item) => !item.bought).length
 
   return (
     <>
@@ -52,7 +29,7 @@ export const ShoppingList = () => {
         <p>The list is empty</p>
       ) : (
         <>
-          <p>To buy: {remainingCount}</p>
+          <p>To buy: {countRemaining(items)}</p>
           <ul>
             {items.map((item) => (
               <li key={item.id}>
@@ -60,14 +37,14 @@ export const ShoppingList = () => {
                   <input
                     type="checkbox"
                     checked={item.bought}
-                    onChange={() => toggleItem(item.id)}
+                    onChange={() => dispatch({ type: 'toggled', id: item.id })}
                   />
                   {item.name}
                 </label>
                 <button
                   type="button"
                   aria-label={`Remove ${item.name}`}
-                  onClick={() => removeItem(item.id)}
+                  onClick={() => dispatch({ type: 'removed', id: item.id })}
                 >
                   Remove
                 </button>
