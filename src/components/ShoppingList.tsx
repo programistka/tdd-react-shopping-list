@@ -30,7 +30,12 @@ export const ShoppingList = () => {
       ) : (
         <ul>
           {items.map((item) => (
-            <li key={item}>{item}</li>
+            <li key={item}>
+              <label>
+                <input type="checkbox" />
+                {item}
+              </label>
+            </li>
           ))}
         </ul>
       )}
