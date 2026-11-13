@@ -32,4 +32,15 @@ describe('ShoppingList', () => {
     expect(screen.queryByRole('listitem')).not.toBeInTheDocument()
     expect(screen.getByText('The list is empty')).toBeInTheDocument()
   })
+
+  it('marks a product as bought', async () => {
+    const user = userEvent.setup()
+    render(<ShoppingList />)
+
+    await user.type(screen.getByRole('textbox', { name: 'Product' }), 'Milk')
+    await user.click(screen.getByRole('button', { name: 'Add' }))
+    await user.click(screen.getByRole('checkbox', { name: 'Milk' }))
+
+    expect(screen.getByRole('checkbox', { name: 'Milk' })).toBeChecked()
+  })
 })
