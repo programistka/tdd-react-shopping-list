@@ -45,4 +45,25 @@ describe('ShoppingList', () => {
 
     expect(screen.getByRole('checkbox', { name: 'Milk' })).toBeChecked()
   })
+
+  it('shows the number of products to buy', async () => {
+    const user = userEvent.setup()
+    render(<ShoppingList />)
+
+    await addProduct(user, 'Milk')
+    await addProduct(user, 'Bread')
+
+    expect(screen.getByText('To buy: 2')).toBeInTheDocument()
+  })
+
+  it('does not count products marked as bought', async () => {
+    const user = userEvent.setup()
+    render(<ShoppingList />)
+
+    await addProduct(user, 'Milk')
+    await addProduct(user, 'Bread')
+    await user.click(screen.getByRole('checkbox', { name: 'Milk' }))
+
+    expect(screen.getByText('To buy: 1')).toBeInTheDocument()
+  })
 })
