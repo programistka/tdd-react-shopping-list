@@ -21,4 +21,15 @@ describe('ShoppingList', () => {
     expect(screen.queryByText('The list is empty')).not.toBeInTheDocument()
     expect(screen.getByRole('textbox', { name: 'Product' })).toHaveValue('')
   })
+
+  it('does not add a product with an empty name', async () => {
+    const user = userEvent.setup()
+    render(<ShoppingList />)
+
+    await user.type(screen.getByRole('textbox', { name: 'Product' }), '   ')
+    await user.click(screen.getByRole('button', { name: 'Add' }))
+
+    expect(screen.queryByRole('listitem')).not.toBeInTheDocument()
+    expect(screen.getByText('The list is empty')).toBeInTheDocument()
+  })
 })
