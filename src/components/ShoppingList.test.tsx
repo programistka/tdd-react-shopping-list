@@ -1,7 +1,12 @@
 import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import userEvent, { type UserEvent } from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'
 import { ShoppingList } from './ShoppingList'
+
+const addProduct = async (user: UserEvent, name: string) => {
+  await user.type(screen.getByRole('textbox', { name: 'Product' }), name)
+  await user.click(screen.getByRole('button', { name: 'Add' }))
+}
 
 describe('ShoppingList', () => {
   it('shows a message when the list is empty', () => {
@@ -14,8 +19,7 @@ describe('ShoppingList', () => {
     const user = userEvent.setup()
     render(<ShoppingList />)
 
-    await user.type(screen.getByRole('textbox', { name: 'Product' }), 'Milk')
-    await user.click(screen.getByRole('button', { name: 'Add' }))
+    await addProduct(user, 'Milk')
 
     expect(screen.getByRole('listitem')).toHaveTextContent('Milk')
     expect(screen.queryByText('The list is empty')).not.toBeInTheDocument()
@@ -26,8 +30,7 @@ describe('ShoppingList', () => {
     const user = userEvent.setup()
     render(<ShoppingList />)
 
-    await user.type(screen.getByRole('textbox', { name: 'Product' }), '   ')
-    await user.click(screen.getByRole('button', { name: 'Add' }))
+    await addProduct(user, '   ')
 
     expect(screen.queryByRole('listitem')).not.toBeInTheDocument()
     expect(screen.getByText('The list is empty')).toBeInTheDocument()
@@ -37,8 +40,7 @@ describe('ShoppingList', () => {
     const user = userEvent.setup()
     render(<ShoppingList />)
 
-    await user.type(screen.getByRole('textbox', { name: 'Product' }), 'Milk')
-    await user.click(screen.getByRole('button', { name: 'Add' }))
+    await addProduct(user, 'Milk')
     await user.click(screen.getByRole('checkbox', { name: 'Milk' }))
 
     expect(screen.getByRole('checkbox', { name: 'Milk' })).toBeChecked()
