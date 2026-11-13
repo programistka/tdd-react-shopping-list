@@ -1,3 +1,3 @@
 export const ShoppingList = () => {
-  return null
+  return <p>The list is empty</p>
 }
