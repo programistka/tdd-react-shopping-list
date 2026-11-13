@@ -66,4 +66,16 @@ describe('ShoppingList', () => {
 
     expect(screen.getByText('To buy: 1')).toBeInTheDocument()
   })
+
+  it('removes a product from the list', async () => {
+    const user = userEvent.setup()
+    render(<ShoppingList />)
+
+    await addProduct(user, 'Milk')
+    await addProduct(user, 'Bread')
+    await user.click(screen.getByRole('button', { name: 'Remove Milk' }))
+
+    expect(screen.queryByRole('checkbox', { name: 'Milk' })).not.toBeInTheDocument()
+    expect(screen.getByRole('checkbox', { name: 'Bread' })).toBeInTheDocument()
+  })
 })
