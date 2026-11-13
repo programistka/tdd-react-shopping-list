@@ -30,6 +30,10 @@ export const ShoppingList = () => {
     )
   }
 
+  const removeItem = (id: string) => {
+    setItems(items.filter((item) => item.id !== id))
+  }
+
   const remainingCount = items.filter((item) => !item.bought).length
 
   return (
@@ -60,6 +64,13 @@ export const ShoppingList = () => {
                   />
                   {item.name}
                 </label>
+                <button
+                  type="button"
+                  aria-label={`Remove ${item.name}`}
+                  onClick={() => removeItem(item.id)}
+                >
+                  Remove
+                </button>
               </li>
             ))}
           </ul>
