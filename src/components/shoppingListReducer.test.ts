@@ -19,4 +19,14 @@ describe('shoppingListReducer', () => {
 
     expect(items).toEqual([milk])
   })
+
+  it('ignores a product with an empty name', () => {
+    const items = shoppingListReducer([milk], {
+      type: 'added',
+      id: '2',
+      name: '   ',
+    })
+
+    expect(items).toEqual([milk])
+  })
 })
