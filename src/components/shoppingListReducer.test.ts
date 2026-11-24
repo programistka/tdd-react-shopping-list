@@ -39,4 +39,13 @@ describe('shoppingListReducer', () => {
 
     expect(items).toEqual([{ ...milk, bought: true }, bread])
   })
+
+  it('removes the given product', () => {
+    const items = shoppingListReducer([milk, bread], {
+      type: 'removed',
+      id: '1',
+    })
+
+    expect(items).toEqual([bread])
+  })
 })

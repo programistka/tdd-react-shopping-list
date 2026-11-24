@@ -7,6 +7,7 @@ export type Item = {
 export type Action =
   | { type: 'added'; id: string; name: string }
   | { type: 'toggled'; id: string }
+  | { type: 'removed'; id: string }
 
 export const shoppingListReducer = (items: Item[], action: Action): Item[] => {
   switch (action.type) {
@@ -20,5 +21,7 @@ export const shoppingListReducer = (items: Item[], action: Action): Item[] => {
       return items.map((item) =>
         item.id === action.id ? { ...item, bought: !item.bought } : item,
       )
+    case 'removed':
+      return items
   }
 }
