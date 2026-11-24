@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { shoppingListReducer, type Item } from './shoppingListReducer'
 
 const milk: Item = { id: '1', name: 'Milk', bought: false }
+const bread: Item = { id: '2', name: 'Bread', bought: true }
 
 describe('shoppingListReducer', () => {
   it('adds a product', () => {
@@ -28,5 +29,14 @@ describe('shoppingListReducer', () => {
     })
 
     expect(items).toEqual([milk])
+  })
+
+  it('toggles the bought state of the given product only', () => {
+    const items = shoppingListReducer([milk, bread], {
+      type: 'toggled',
+      id: '1',
+    })
+
+    expect(items).toEqual([{ ...milk, bought: true }, bread])
   })
 })
