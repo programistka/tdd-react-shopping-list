@@ -26,6 +26,6 @@ export const shoppingListReducer = (items: Item[], action: Action): Item[] => {
   }
 }
 
-export const countRemaining = (_items: Item[]): number => {
-  return 0
+export const countRemaining = (items: Item[]): number => {
+  return items.filter((item) => !item.bought).length
 }
