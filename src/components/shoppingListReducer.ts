@@ -9,10 +9,16 @@ export type Action =
   | { type: 'toggled'; id: string }
 
 export const shoppingListReducer = (items: Item[], action: Action): Item[] => {
-  if (action.type !== 'added') return items
+  switch (action.type) {
+    case 'added': {
+      const name = action.name.trim()
+      if (name === '') return items
 
-  const name = action.name.trim()
-  if (name === '') return items
-
-  return [...items, { id: action.id, name, bought: false }]
+      return [...items, { id: action.id, name, bought: false }]
+    }
+    case 'toggled':
+      return items.map((item) =>
+        item.id === action.id ? { ...item, bought: !item.bought } : item,
+      )
+  }
 }
