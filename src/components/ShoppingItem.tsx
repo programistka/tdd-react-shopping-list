@@ -6,7 +6,7 @@ type ShoppingItemProps = {
   onRemove: (id: string) => void
 }
 
-export const ShoppingItem = ({ item, onToggle }: ShoppingItemProps) => {
+export const ShoppingItem = ({ item, onToggle, onRemove }: ShoppingItemProps) => {
   return (
     <li>
       <label>
@@ -17,6 +17,13 @@ export const ShoppingItem = ({ item, onToggle }: ShoppingItemProps) => {
         />
         {item.name}
       </label>
+      <button
+        type="button"
+        aria-label={`Remove ${item.name}`}
+        onClick={() => onRemove(item.id)}
+      >
+        Remove
+      </button>
     </li>
   )
 }
