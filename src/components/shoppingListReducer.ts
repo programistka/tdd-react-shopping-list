@@ -22,6 +22,6 @@ export const shoppingListReducer = (items: Item[], action: Action): Item[] => {
         item.id === action.id ? { ...item, bought: !item.bought } : item,
       )
     case 'removed':
-      return items
+      return items.filter((item) => item.id !== action.id)
   }
 }
