@@ -9,6 +9,8 @@ export const AddProductForm = ({ onAdd }: AddProductFormProps) => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    if (name.trim() === '') return
+
     onAdd(name)
     setName('')
   }
