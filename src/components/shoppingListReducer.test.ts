@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { shoppingListReducer, type Item } from './shoppingListReducer'
+import { countRemaining, shoppingListReducer, type Item } from './shoppingListReducer'
 
 const milk: Item = { id: '1', name: 'Milk', bought: false }
 const bread: Item = { id: '2', name: 'Bread', bought: true }
@@ -47,5 +47,11 @@ describe('shoppingListReducer', () => {
     })
 
     expect(items).toEqual([bread])
+  })
+})
+
+describe('countRemaining', () => {
+  it('counts only products that are not bought', () => {
+    expect(countRemaining([milk, bread])).toBe(1)
   })
 })
