@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import { ShoppingItem } from './ShoppingItem'
 import type { Item } from './shoppingListReducer'
@@ -18,5 +19,15 @@ describe('ShoppingItem', () => {
     )
 
     expect(screen.getByRole('checkbox', { name: 'Milk' })).toBeChecked()
+  })
+
+  it('calls onToggle with the product id', async () => {
+    const user = userEvent.setup()
+    const onToggle = vi.fn()
+    render(<ShoppingItem item={milk} onToggle={onToggle} onRemove={vi.fn()} />)
+
+    await user.click(screen.getByRole('checkbox', { name: 'Milk' }))
+
+    expect(onToggle).toHaveBeenCalledWith('1')
   })
 })
