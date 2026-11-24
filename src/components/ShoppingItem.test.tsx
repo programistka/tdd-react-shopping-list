@@ -30,4 +30,14 @@ describe('ShoppingItem', () => {
 
     expect(onToggle).toHaveBeenCalledWith('1')
   })
+
+  it('calls onRemove with the product id', async () => {
+    const user = userEvent.setup()
+    const onRemove = vi.fn()
+    render(<ShoppingItem item={milk} onToggle={vi.fn()} onRemove={onRemove} />)
+
+    await user.click(screen.getByRole('button', { name: 'Remove Milk' }))
+
+    expect(onRemove).toHaveBeenCalledWith('1')
+  })
 })
