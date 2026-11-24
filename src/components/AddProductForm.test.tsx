@@ -15,4 +15,15 @@ describe('AddProductForm', () => {
     expect(onAdd).toHaveBeenCalledWith('Milk')
     expect(screen.getByRole('textbox', { name: 'Product' })).toHaveValue('')
   })
+
+  it('does not call onAdd for an empty name', async () => {
+    const user = userEvent.setup()
+    const onAdd = vi.fn()
+    render(<AddProductForm onAdd={onAdd} />)
+
+    await user.type(screen.getByRole('textbox', { name: 'Product' }), '   ')
+    await user.click(screen.getByRole('button', { name: 'Add' }))
+
+    expect(onAdd).not.toHaveBeenCalled()
+  })
 })
