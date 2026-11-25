@@ -4,6 +4,8 @@ Companion repository for the blog series **TDD w React** on [programistka.com](h
 
 **Part 1 – top-down:** [TDD w React, część 1: lista zakupów metodą top-down](https://programistka.com/tdd-w-react-czesc-1-top-down/) (Polish) · [English translation](https://programistka.com/en/tdd-w-react-czesc-1-top-down/)
 
+**Part 2 – bottom-up:** [TDD w React, część 2: lista zakupów metodą bottom-up](https://programistka.com/tdd-w-react-czesc-2-bottom-up/) (Polish) · [English translation](https://programistka.com/en/tdd-w-react-czesc-2-bottom-up/). The code lives on the [`bottom-up`](https://github.com/programistka/tdd-react-shopping-list/tree/bottom-up) branch.
+
 Every step of the red → green → refactor cycle is a separate commit, so you can follow the post commit by commit and run the tests at each step.
 
 ## What we build
@@ -17,7 +19,7 @@ A shopping list component, driven by these requirements:
 5. A counter shows how many products are left to buy.
 6. A product can be removed from the list.
 
-Part 1 builds it **top-down (outside-in)**: tests render the whole `<ShoppingList />` and interact with it the way a user would. The internal structure (a reducer) only appears when the code needs it. Part 2 will build the same component **bottom-up**.
+Part 1 builds it **top-down (outside-in)**: tests render the whole `<ShoppingList />` and interact with it the way a user would. The internal structure (a reducer) only appears when the code needs it. Part 2 builds the same component **bottom-up (inside-out)** on the `bottom-up` branch: first the reducer, then `<ShoppingItem />` and `<AddProductForm />` tested in isolation, and finally `<ShoppingList />` composed from them.
 
 ## Commit by commit
 
